@@ -38,8 +38,13 @@ const Help = () => {
           </Text>
           <View>
             {data[0]?.solutions?.map((item: any, index: any) => (
-              <View>
-                <Text key={index} fontSize={18}>
+              <View marginBottom={35}>
+                <Text
+                  color={"$green9"}
+                  key={index}
+                  fontSize={18}
+                  marginBottom={20}
+                >
                   {item.text}
                 </Text>
                 <Image
