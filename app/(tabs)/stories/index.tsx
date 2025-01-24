@@ -1,7 +1,7 @@
 import { saveType } from "@/utils/localSave";
 import { useRouter } from "expo-router";
 import { FlatList } from "react-native";
-import { Image, ScrollView, Text, View, YStack } from "tamagui";
+import { Image, Text, View, YStack } from "tamagui";
 
 export default function Stories() {
   const router = useRouter();
