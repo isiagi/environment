@@ -33,19 +33,19 @@ export default function Events() {
             <XStack gap={10} onPress={() => router.push("/events/detail")}>
               <Image
                 source={{
-                  uri: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+                  uri: "https://loveugandafoundation.org/wp-content/uploads/2022/03/Pink-White-International-Womens-Day-Instagram-Post-1024x1024.png",
                 }}
                 style={{ width: 110, height: 70, borderRadius: 5 }}
               />
               <View>
                 <Text fontSize={16} fontWeight="bold" marginBottom={5}>
-                  Community Clean Up
+                  Woman's Day Event
                 </Text>
-                <Text>27/05/2023</Text>
+                <Text fontSize={15}>08/03/2025</Text>
               </View>
             </XStack>
 
-            <XStack gap={10}>
+            {/* <XStack gap={10}>
               <Image
                 source={{
                   uri: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
@@ -58,9 +58,9 @@ export default function Events() {
                 </Text>
                 <Text>27/05/2023</Text>
               </View>
-            </XStack>
+            </XStack> */}
 
-            <XStack gap={10}>
+            {/* <XStack gap={10}>
               <Image
                 source={{
                   uri: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
@@ -73,7 +73,7 @@ export default function Events() {
                 </Text>
                 <Text>27/05/2023</Text>
               </View>
-            </XStack>
+            </XStack> */}
           </YStack>
           <View>
             <Text marginVertical={20} fontSize={18} fontWeight="bold">
@@ -81,22 +81,22 @@ export default function Events() {
             </Text>
 
             <YStack gap={40}>
-              <XStack gap={10}>
+              <XStack gap={10} onPress={() => router.push("/events/detail")}>
                 <Image
                   source={{
-                    uri: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+                    uri: "https://loveugandafoundation.org/wp-content/uploads/2022/03/Pink-White-International-Womens-Day-Instagram-Post-1024x1024.png",
                   }}
                   style={{ width: 110, height: 70, borderRadius: 5 }}
                 />
                 <View>
                   <Text fontSize={16} fontWeight="bold" marginBottom={5}>
-                    Community Clean Up
+                    Woman's Day Event
                   </Text>
-                  <Text>27/05/2023</Text>
+                  <Text fontSize={15}>08/03/2025</Text>
                 </View>
               </XStack>
 
-              <XStack gap={10}>
+              {/* <XStack gap={10}>
                 <Image
                   source={{
                     uri: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
@@ -109,7 +109,7 @@ export default function Events() {
                   </Text>
                   <Text>27/05/2023</Text>
                 </View>
-              </XStack>
+              </XStack> */}
             </YStack>
           </View>
         </View>
