@@ -5,6 +5,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import {createTamagui, TamaguiProvider } from 'tamagui';
+import defaultConfig from '@tamagui/config/v3';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -27,13 +29,17 @@ export default function RootLayout() {
     return null;
   }
 
+  const tamagui = createTamagui(defaultConfig);
+
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <TamaguiProvider config={tamagui}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />
+    </TamaguiProvider>
     </ThemeProvider>
   );
 }
