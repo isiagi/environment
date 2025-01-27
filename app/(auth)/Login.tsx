@@ -26,6 +26,11 @@ const Login = () => {
 
   const route = useRouter();
 
+  // If the user is already logged in, redirect them to the home screen
+  if (useAuth.user) {
+    route.push("/(tabs)");
+  }
+
   // More robust error handling
   const handleLogin = async () => {
     try {
@@ -39,7 +44,7 @@ const Login = () => {
 
       // Redirect to the home screen
       route.push("/(tabs)");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Full error:", error);
       if (error.response) {
         console.error("Server error details:", error.response.data);

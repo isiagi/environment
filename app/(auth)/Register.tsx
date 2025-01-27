@@ -33,7 +33,7 @@ const Register = () => {
 
       // Redirect to the home screen
       route.push("/(auth)/Login");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Full error:", error);
       if (error.response) {
         console.error("Server error details:", error.response.data);

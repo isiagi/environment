@@ -1,6 +1,29 @@
+import authInstance from "@/utils/axios/authApi";
+import { useEffect, useState } from "react";
 import { Button, Image, Progress, Text, View, XStack, YStack } from "tamagui";
+import { useRouter } from "expo-router";
 
 export default function Rewards() {
+  const [profile, setProfile] = useState<any>([]);
+  const route = useRouter();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch tasks
+        const profileResponse = await authInstance.get("userprofile/");
+
+        console.log(profileResponse.data);
+
+        setProfile(profileResponse.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <View flex={1} backgroundColor={"white"}>
       <View marginTop={60} paddingHorizontal={20}>
@@ -25,7 +48,7 @@ export default function Rewards() {
           >
             <YStack>
               <Text>Total Points</Text>
-              <Text>500 Points</Text>
+              <Text>{profile[0]?.total_points} Points</Text>
             </YStack>
             <Button>View Details</Button>
           </XStack>
@@ -97,7 +120,7 @@ export default function Rewards() {
             marginTop={15}
           >
             <Text>Recycle</Text>
-            <Button>Start</Button>
+            <Button onPress={() => route.push("/rewards/quiz")}>Start</Button>
           </XStack>
           <XStack
             justifyContent="space-between"
