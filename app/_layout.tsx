@@ -14,6 +14,8 @@ import defaultConfig from "@tamagui/config/v3";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { AuthProvider } from "@/context/AuthContext";
+import { PortalProvider } from '@tamagui/portal'
+
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -38,8 +40,10 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
+    
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <TamaguiProvider config={tamagui}>
+        <PortalProvider shouldAddRootHost>
           <Stack>
             <Stack.Screen
               name="(auth)/Login"
@@ -53,8 +57,10 @@ export default function RootLayout() {
             <Stack.Screen name="+not-found" />
           </Stack>
           <StatusBar style="auto" />
+          </PortalProvider>
         </TamaguiProvider>
       </ThemeProvider>
+    
     </AuthProvider>
   );
 }

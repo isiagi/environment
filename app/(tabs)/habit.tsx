@@ -13,36 +13,39 @@ interface Task {
 export default function Habits() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [completedTaskIds, setCompletedTaskIds] = useState<number[]>([]);
+  const [activeTab, setActiveTab] = useState<'daily' | 'weekly'>('daily');
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch tasks
-        const tasksResponse = await authInstance.get("task/");
-
-        // Fetch completed tasks
-        const completedResponse = await authInstance.get("user-tasks/");
-
-        // Extract completed task IDs
-        const completedIds = completedResponse.data.map(
-          (task: Task) => task.task
-        );
-
-        // Mark tasks as completed
-        const updatedTasks = tasksResponse.data.map((task: Task) => ({
-          ...task,
-          is_completed: completedIds.includes(task.id),
-        }));
-
-        setTasks(updatedTasks);
-        setCompletedTaskIds(completedIds);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
     fetchData();
-  }, []);
+  }, [activeTab]);
+
+  const fetchData = async () => {
+    try {
+      // Fetch tasks based on active tab
+      const tasksResponse = await authInstance.get(
+        activeTab === 'daily' ? "task/" : "task/weekly/"
+      );
+
+      // Fetch completed tasks
+      const completedResponse = await authInstance.get("user-tasks/");
+
+      // Extract completed task IDs
+      const completedIds = completedResponse.data.map(
+        (task: any) => task.task
+      );
+
+      // Mark tasks as completed
+      const updatedTasks = tasksResponse.data.map((task: Task) => ({
+        ...task,
+        is_completed: completedIds.includes(task.id),
+      }));
+
+      setTasks(updatedTasks);
+      setCompletedTaskIds(completedIds);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const completeTask = async (id: number) => {
     try {
@@ -65,9 +68,24 @@ export default function Habits() {
   return (
     <View flex={1} backgroundColor={"white"}>
       <View marginTop={60} paddingHorizontal={20}>
-        <Text fontSize={22} color="black" marginBottom={20} fontWeight="bold">
-          Today
-        </Text>
+        <XStack gap={20} marginBottom={20}>
+          <Text 
+            fontSize={22} 
+            color={activeTab === 'daily' ? "$green9" : "black"} 
+            fontWeight="bold"
+            onPress={() => setActiveTab('daily')}
+          >
+            Today's Points
+          </Text>
+          <Text 
+            fontSize={22} 
+            color={activeTab === 'weekly' ? "$green9" : "black"} 
+            fontWeight="bold"
+            onPress={() => setActiveTab('weekly')}
+          >
+            Weekly Points
+          </Text>
+        </XStack>
 
         <View>
           {tasks.map((item) => (

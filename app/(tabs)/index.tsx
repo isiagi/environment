@@ -1,16 +1,28 @@
 import { Image, StyleSheet, Platform, Alert } from "react-native";
 
 import { HelloWave } from "@/components/HelloWave";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import { ScrollView, Text, View } from "tamagui";
-import { green } from "react-native-reanimated/lib/typescript/Colors";
-import { Navigator, useRouter } from "expo-router";
+
+import { Button, Popover, ScrollView, Text, View, YStack } from "tamagui";
+
+import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useContext } from "react";
+import { AuthContext } from "@/context/AuthContext";
+import authInstance from "@/utils/axios/authApi";
+
+const localImages = [
+  require('@/assets/images/img1.jpeg'),
+  require('@/assets/images/img2.jpeg'), 
+  require('@/assets/images/img3.jpeg'),
+  require('@/assets/images/img4.jpeg'),
+  require('@/assets/images/img1.jpeg'),
+  require('@/assets/images/img2.jpeg')
+];
 
 export default function HomeScreen() {
   const router = useRouter();
+  const useAuth = useContext(AuthContext);
+
   return (
     <ScrollView
       flex={1}
@@ -25,19 +37,79 @@ export default function HomeScreen() {
         paddingHorizontal={20}
       >
         <View>
-          <Image
-            source={{
-              uri: "https://img.freepik.com/free-photo/group-afro-americans-working-together_1303-8970.jpg?t=st=1737801301~exp=1737804901~hmac=dd77d54792bbb74adea093e88b12d48023e3883cb04bc583b0108b8ecc8ad93b&w=740",
-            }}
-            style={{
-              width: 50,
-              height: 50,
-              alignSelf: "center",
-              borderRadius: 100,
-            }}
-          />
+          <Popover placement="bottom">
+            <Popover.Trigger>
+              <Image
+                source={{
+                  uri: "https://img.freepik.com/free-photo/group-afro-americans-working-together_1303-8970.jpg?t=st=1737801301~exp=1737804901~hmac=dd77d54792bbb74adea093e88b12d48023e3883cb04bc583b0108b8ecc8ad93b&w=740",
+                }}
+                style={{
+                  width: 50,
+                  height: 50,
+                  alignSelf: "center", 
+                  borderRadius: 100,
+                }}
+              />
+            </Popover.Trigger>
+
+            <Popover.Content
+              borderWidth={1}
+              borderColor="$gray5"
+              enterStyle={{ y: -10, opacity: 0 }}
+              exitStyle={{ y: -10, opacity: 0 }}
+              marginLeft={15}
+              marginTop={5}
+              elevate
+              animation={[
+                'quick',
+                {
+                  opacity: {
+                    overshootClamping: true,
+                  },
+                },
+              ]}
+            >
+              <Popover.Arrow borderWidth={1} borderColor="$gray5" />
+              
+              <YStack space="$3" >
+                <Button
+                  onPress={() => {
+                    Alert.alert(
+                      "Logout",
+                      "Are you sure you want to logout?",
+                      [
+                        {
+                          text: "Cancel",
+                          style: "cancel"
+                        },
+                        {
+                          text: "Logout",
+                          onPress: async () => {
+                            // Add logout logic here
+                            try {
+                              await authInstance.post('users/auth/logout/')
+                              useAuth.logout()
+                            router.replace("/(auth)/Login");
+                            } catch (error) {
+                              console.log(error);
+                              
+                            }
+                            
+                          }
+                        }
+                      ]
+                    );
+                  }}
+                  backgroundColor="$red9"
+                  color="white"
+                >
+                  Logout
+                </Button>
+              </YStack>
+            </Popover.Content>
+          </Popover>
         </View>
-        <View>
+        <View flexDirection="row" alignItems="center">
           <Text
             fontSize={15}
             width={200}
@@ -47,6 +119,9 @@ export default function HomeScreen() {
           >
             Dynamic Climate Change Advocates.
           </Text>
+          <View>
+            <HelloWave />
+          </View>
           {/* <Text fontSize={20} fontWeight={"bold"}>
             Welcome Back
           </Text> */}
@@ -68,14 +143,14 @@ export default function HomeScreen() {
 
       <View>
         <Image
-          source={{
-            uri: "https://img.freepik.com/free-photo/group-afro-americans-working-together_1303-8970.jpg?t=st=1737801301~exp=1737804901~hmac=dd77d54792bbb74adea093e88b12d48023e3883cb04bc583b0108b8ecc8ad93b&w=740",
-          }}
+          source={require('@/assets/images/img2.jpeg')}
           style={{
             width: "95%",
-            height: 200,
+            height: 220,
             alignSelf: "center",
             borderRadius: 10,
+            objectFit: 'cover',
+            
           }}
         />
       </View>
@@ -132,12 +207,10 @@ export default function HomeScreen() {
       </View>
       <View>
         <ScrollView horizontal height={190}>
-          {[1, 2, 3, 4, 5, 6].map((item) => (
-            <View key={item} paddingHorizontal={10} flex={1}>
+          {localImages.map((image, index) => (
+            <View key={index} paddingHorizontal={10} flex={1}>
               <Image
-                source={{
-                  uri: "https://media.istockphoto.com/id/1439153283/photo/answer-sheets-with-pencil-drawing-fill-to-select-choice-education-concept.jpg?s=1024x1024&w=is&k=20&c=4tA7_mqWBQJUDtb-c3r5AdzSTV325Zw6lkc5QfvfmfI=",
-                }}
+                source={image}
                 style={{ width: 300, height: "100%", borderRadius: 10 }}
               />
             </View>

@@ -1,111 +1,196 @@
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useState } from "react";
-import { Button, Progress, ScrollView, Text, View, XStack, YStack } from "tamagui";
-
-const quizQuestions = [
-  {
-    question: "What can we do to save water?",
-    options: [
-      "Leave the tap running while brushing teeth",
-      "Take long showers",
-      "Turn off the tap while brushing teeth",
-      "Use water without thinking"
-    ],
-    correctAnswer: "Turn off the tap while brushing teeth"
-  },
-  {
-    question: "Which of these helps protect our environment?",
-    options: [
-      "Throwing trash on the ground",
-      "Recycling paper and plastic",
-      "Leaving lights on when leaving a room",
-      "Using lots of plastic bags"
-    ],
-    correctAnswer: "Recycling paper and plastic"
-  },
-  {
-    question: "What is renewable energy?",
-    options: [
-      "Energy from coal",
-      "Energy from oil",
-      "Energy from the sun and wind",
-      "Energy from gas"
-    ],
-    correctAnswer: "Energy from the sun and wind"
-  }
-];
+import { Alert } from "react-native";
+import {
+  Button,
+  Progress,
+  ScrollView,
+  Text,
+  View,
+  XStack,
+  YStack,
+} from "tamagui";
+import {
+  conservationQuestions,
+  pollutionQuestions,
+  renewableEnergyQuestions,
+  waterConservationQuestions,
+  recyclingQuestions,
+} from "@/utils/quiz";
 
 const Quiz = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
+  const { type } = useLocalSearchParams();
+
+  let quizQuestions;
+  switch (type) {
+    case 'conservation':
+      quizQuestions = conservationQuestions;
+      break;
+    case 'pollution':
+      quizQuestions = pollutionQuestions;
+      break;
+    case 'renewable':
+      quizQuestions = renewableEnergyQuestions;
+      break;
+    case 'water':
+      quizQuestions = waterConservationQuestions;
+      break;
+    case 'recycling':
+      quizQuestions = recyclingQuestions;
+      break;
+    default:
+      quizQuestions = conservationQuestions;
+  }
+
+  const [answers, setAnswers] = useState<string[]>(
+    new Array(quizQuestions.length).fill("")
+  );
+
+  const router = useRouter();
+
   const handleAnswer = (selectedAnswer: string) => {
-    if (selectedAnswer === quizQuestions[currentQuestion].correctAnswer) {
-      setScore((prevScore) => prevScore + 1);
+    const newAnswers = [...answers];
+    newAnswers[currentQuestion] = selectedAnswer;
+    setAnswers(newAnswers);
+
+    // Recalculate score
+    const newScore = newAnswers.reduce((acc, answer, index) => {
+      return answer === quizQuestions[index].correctAnswer
+        ? acc + quizQuestions[index].points
+        : acc;
+    }, 0);
+    setScore(newScore);
+  };
+
+  const goToNextQuestion = () => {
+    if (currentQuestion < quizQuestions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+    } else {
+      setShowResult(true);
     }
-    
-    // Use the callback form of setState to ensure accurate updates
-    setCurrentQuestion((prevQuestion) => {
-      const nextQuestion = prevQuestion + 1;
-      if (nextQuestion >= quizQuestions.length) {
-        setShowResult(true);
-        return prevQuestion; // Keep the current question if we're showing results
-      }
-      return nextQuestion;
-    });
+  };
+
+  const goToPreviousQuestion = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+    }
   };
 
   const restartQuiz = () => {
     setCurrentQuestion(0);
     setScore(0);
     setShowResult(false);
+    setAnswers(new Array(quizQuestions.length).fill(""));
   };
 
-  const progress = ((currentQuestion) / quizQuestions.length) * 100;
+  const progress = Math.round((currentQuestion / quizQuestions.length) * 100);
 
   if (showResult) {
     return (
-      <View flex={1} backgroundColor="white" padding={20} justifyContent="center">
-        <YStack space={20} alignItems="center">
-          <Text fontSize={24} textAlign="center">
-            Quiz Complete! 🎉
-          </Text>
-          <Text fontSize={20} textAlign="center">
-            You scored {score} out of {quizQuestions.length}!
-          </Text>
-          <Button onPress={restartQuiz} backgroundColor="$green9">
-            Try Again
-          </Button>
-        </YStack>
+      <View
+        flex={1}
+        backgroundColor="white"
+        paddingTop={50}
+       
+        paddingHorizontal={20}
+      >
+        <ScrollView>
+          <YStack space={20}>
+            <Text fontSize={24} textAlign="center" color={"$green9"}>
+              Quiz Complete! 🎉
+            </Text>
+            <Text fontSize={20} textAlign="center" color={"$black10"}>
+              You scored {score} out of {quizQuestions.length}!
+            </Text>
+
+            <Text
+              fontSize={18}
+              color={"$gray9"}
+              fontWeight="bold"
+              marginTop={20}
+            >
+              Summary:
+            </Text>
+
+            {quizQuestions.map((question, index) => (
+              <View
+                key={index}
+                backgroundColor="$gray2"
+                padding={15}
+                borderRadius={10}
+              >
+                <Text fontSize={16} marginBottom={10} color={"$black10"}>
+                  Question {index + 1}: {question.question}
+                </Text>
+                <Text
+                  color={
+                    answers[index] === question.correctAnswer
+                      ? "$green9"
+                      : "$red9"
+                  }
+                >
+                  Your answer: {answers[index] || "Not answered"}
+                </Text>
+                <Text color="$green9">
+                  Correct answer: {question.correctAnswer}
+                </Text>
+              </View>
+            ))}
+
+            <Button
+              onPress={restartQuiz}
+              backgroundColor="$green9"
+              color={"white"}
+              marginTop={20}
+              marginBottom={30}
+            >
+              Try Again
+            </Button>
+          </YStack>
+        </ScrollView>
       </View>
     );
   }
 
-  console.log(typeof progress);
-  
-
   return (
-    <View flex={1} backgroundColor="white">
+    <View flex={1} backgroundColor="white" paddingTop={30}>
       <ScrollView>
-        <View padding={20}>
-          <Progress value={progress.toFixed(1)} backgroundColor="$green5">
+        <View padding={15}>
+          <View onPress={() => router.back()} alignItems="flex-end">
+            <Text
+              color={"$red9"}
+              fontWeight={"600"}
+              fontSize={20}
+              padding={5}
+              paddingBottom={15}
+            >
+              X
+            </Text>
+          </View>
+          <Progress value={progress} backgroundColor="$green5">
             <Progress.Indicator animation="bouncy" backgroundColor="$green9" />
           </Progress>
-          
-          <Text fontSize={24} marginVertical={20}>
+
+          <Text fontSize={24} marginVertical={20} color={"$black9"}>
             Question {currentQuestion + 1} of {quizQuestions.length}
           </Text>
-          
-          <Text fontSize={20} marginBottom={20}>
+
+          <Text fontSize={20} marginBottom={20} color={"$black10"}>
             {quizQuestions[currentQuestion].question}
           </Text>
 
-          <YStack space={10}>
+          <YStack space={10} marginVertical={20}>
             {quizQuestions[currentQuestion].options.map((option, index) => (
               <Button
                 key={index}
                 onPress={() => handleAnswer(option)}
-                backgroundColor="$green9"
+                backgroundColor={
+                  answers[currentQuestion] === option ? "$green9" : "$yellow8"
+                }
                 color="white"
                 size="$5"
               >
@@ -113,6 +198,26 @@ const Quiz = () => {
               </Button>
             ))}
           </YStack>
+
+          <XStack space={10} marginTop={20} justifyContent="space-between">
+            <Button
+              onPress={goToPreviousQuestion}
+              disabled={currentQuestion === 0}
+              backgroundColor="$gray9"
+              width={150}
+              color={"white"}
+            >
+              Previous
+            </Button>
+            <Button
+              onPress={goToNextQuestion}
+              backgroundColor="$green9"
+              width={150}
+              color={"white"}
+            >
+              {currentQuestion === quizQuestions.length - 1 ? "Finish" : "Next"}
+            </Button>
+          </XStack>
         </View>
       </ScrollView>
     </View>

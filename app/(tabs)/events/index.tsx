@@ -10,7 +10,7 @@ export default function Events() {
           fontSize={20}
           fontWeight="bold"
           paddingVertical={20}
-          color="black"
+          color="$green9"
           textAlign="center"
         >
           Events
@@ -24,6 +24,7 @@ export default function Events() {
           fontSize={18}
           fontWeight="bold"
           marginVertical={20}
+          color={"$yellow9"}
         >
           Upcoming Events
         </Text>
@@ -35,13 +36,13 @@ export default function Events() {
                 source={{
                   uri: "https://loveugandafoundation.org/wp-content/uploads/2022/03/Pink-White-International-Womens-Day-Instagram-Post-1024x1024.png",
                 }}
-                style={{ width: 110, height: 70, borderRadius: 5 }}
+                style={{ width: 110, height: 100, borderRadius: 5 }}
               />
               <View>
-                <Text fontSize={16} fontWeight="bold" marginBottom={5}>
+                <Text fontSize={18} fontWeight="bold" marginBottom={5} color={"$green9"}>
                   Woman's Day Event
                 </Text>
-                <Text fontSize={15}>08/03/2025</Text>
+                <Text fontSize={15} color={"$black8"}>08/03/2025</Text>
               </View>
             </XStack>
 
@@ -86,13 +87,13 @@ export default function Events() {
                   source={{
                     uri: "https://loveugandafoundation.org/wp-content/uploads/2022/03/Pink-White-International-Womens-Day-Instagram-Post-1024x1024.png",
                   }}
-                  style={{ width: 110, height: 70, borderRadius: 5 }}
+                  style={{ width: 110, height: 100, borderRadius: 5 }}
                 />
                 <View>
-                  <Text fontSize={16} fontWeight="bold" marginBottom={5}>
+                  <Text fontSize={18} fontWeight="bold" marginBottom={5} color={"$green9"}>
                     Woman's Day Event
                   </Text>
-                  <Text fontSize={15}>08/03/2025</Text>
+                  <Text fontSize={15} color={"$black8"}>08/03/2025</Text>
                 </View>
               </XStack>
 

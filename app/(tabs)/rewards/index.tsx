@@ -29,7 +29,7 @@ export default function Rewards() {
       <View marginTop={60} paddingHorizontal={20}>
         <Text
           fontSize={22}
-          color="black"
+          color="$green9"
           textAlign="center"
           marginBottom={20}
           fontWeight="bold"
@@ -38,7 +38,7 @@ export default function Rewards() {
         </Text>
 
         <View>
-          <Text fontSize={18} fontWeight={"500"}>
+          <Text fontSize={18} fontWeight={"500"} color={"$black6"}>
             Your Points
           </Text>
           <XStack
@@ -47,30 +47,32 @@ export default function Rewards() {
             marginTop={10}
           >
             <YStack>
-              <Text>Total Points</Text>
-              <Text>{profile[0]?.total_points} Points</Text>
+              <Text color={"$black8"}>Total Points</Text>
+              <Text color={"$green9"}>{profile[0]?.total_points} Points</Text>
             </YStack>
-            <Button>View Details</Button>
+            <Button backgroundColor={"$green8"} color={"white"}>
+              View Details
+            </Button>
           </XStack>
         </View>
 
         <View>
-          <Text fontSize={18} fontWeight={"500"}>
+          <Text fontSize={18} color={"$black6"} fontWeight={"500"}>
             Next Level
           </Text>
           <YStack gap={10} marginTop={10}>
-            <Progress value={40}>
-              <Progress.Indicator animation="bouncy" />
+            <Progress value={40} borderColor={"$green5"}>
+              <Progress.Indicator style={{backgroundColor: "green"}}  animation="bouncy" />
             </Progress>
-            <Text>200/400</Text>
+            <Text color={"$black7"}>200/400</Text>
           </YStack>
         </View>
 
         <View marginTop={25}>
-          <Text fontSize={18} fontWeight={"500"}>
+          <Text fontSize={18} color={"$green9"} fontWeight={"500"}>
             Badges
           </Text>
-          <Text marginTop={10} marginBottom={20}>
+          <Text marginTop={10} marginBottom={20} color={"$black8"}>
             Complete 5 Tasks
           </Text>
           <View>
@@ -80,8 +82,8 @@ export default function Rewards() {
                   uri: "https://img.freepik.com/free-vector/badge-with-award-trophy_23-2148889550.jpg?w=740",
                 }}
                 style={{
-                  width: 120,
-                  height: 120,
+                  width: 100,
+                  height: 100,
                   borderRadius: 100,
                 }}
               />
@@ -91,8 +93,8 @@ export default function Rewards() {
                   uri: "https://img.freepik.com/free-vector/badge-with-award-trophy_23-2148889550.jpg?w=740",
                 }}
                 style={{
-                  width: 120,
-                  height: 120,
+                  width: 100,
+                  height: 100,
                   borderRadius: 100,
                 }}
               />
@@ -102,8 +104,8 @@ export default function Rewards() {
                   uri: "https://img.freepik.com/free-vector/badge-with-award-trophy_23-2148889550.jpg?w=740",
                 }}
                 style={{
-                  width: 120,
-                  height: 120,
+                  width: 100,
+                  height: 100,
                   borderRadius: 100,
                 }}
               />
@@ -111,7 +113,7 @@ export default function Rewards() {
           </View>
         </View>
         <View marginTop={30}>
-          <Text fontSize={18} fontWeight={"500"}>
+          <Text fontSize={18} color={"$green9"} fontWeight={"500"}>
             Earn Points
           </Text>
           <XStack
@@ -119,26 +121,86 @@ export default function Rewards() {
             alignItems="center"
             marginTop={15}
           >
-            <Text>Recycle</Text>
-            <Button onPress={() => route.push("/rewards/quiz")}>Start</Button>
+            <Text fontSize={17} fontWeight={600} color={"$black7"}>
+              Recycle
+            </Text>
+            <Button
+              onPress={() =>
+                route.push({
+                  pathname: "/rewards/quiz",
+                  params: { type: "recycle" },
+                })
+              }
+              backgroundColor={"$green9"}
+              color={"white"}
+            >
+              Start
+            </Button>
           </XStack>
           <XStack
             justifyContent="space-between"
             alignItems="center"
             marginTop={15}
           >
-            <Text>Plant Trees</Text>
-            <Button>Start</Button>
+            <Text fontSize={17} fontWeight={600} color={"$black7"}>
+              Water Conservation
+            </Text>
+            <Button
+              backgroundColor={"$green9"}
+              color={"white"}
+              onPress={() =>
+                route.push({
+                  pathname: "/rewards/quiz",
+                  params: { type: "water" },
+                })
+              }
+            >
+              Start
+            </Button>
           </XStack>
           <XStack
             justifyContent="space-between"
             alignItems="center"
             marginTop={15}
           >
-            <Text>Save Energy</Text>
-            <Button>Start</Button>
+            <Text fontSize={17} fontWeight={600} color={"$black7"}>
+              Pollution
+            </Text>
+            <Button
+              backgroundColor={"$green9"}
+              color={"white"}
+              onPress={() =>
+                route.push({
+                  pathname: "/rewards/quiz",
+                  params: { type: "pollution" },
+                })
+              }
+            >
+              Start
+            </Button>
           </XStack>
-          s
+
+          <XStack
+            justifyContent="space-between"
+            alignItems="center"
+            marginTop={15}
+          >
+            <Text fontSize={17} fontWeight={600} color={"$black7"}>
+              Renewable Enegry
+            </Text>
+            <Button
+              backgroundColor={"$green9"}
+              color={"white"}
+              onPress={() =>
+                route.push({
+                  pathname: "/rewards/quiz",
+                  params: { type: "energy" },
+                })
+              }
+            >
+              Start
+            </Button>
+          </XStack>
         </View>
       </View>
     </View>
