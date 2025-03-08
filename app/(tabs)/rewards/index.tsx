@@ -1,15 +1,17 @@
 import authInstance from "@/utils/axios/authApi";
 import { useEffect, useState } from "react";
-import { Button, Image, Progress, Text, View, XStack, YStack } from "tamagui";
+import { Button, Image, Progress, Text, View, XStack, YStack, Spinner } from "tamagui";
 import { useRouter } from "expo-router";
 
 export default function Rewards() {
   const [profile, setProfile] = useState<any>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const route = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         // Fetch tasks
         const profileResponse = await authInstance.get("userprofile/");
 
@@ -18,11 +20,21 @@ export default function Rewards() {
         setProfile(profileResponse.data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
+
+  if (isLoading) {
+    return (
+      <View flex={1} backgroundColor="white" justifyContent="center" alignItems="center">
+        <Spinner size="large" color="$green9" />
+      </View>
+    );
+  }
 
   return (
     <View flex={1} backgroundColor={"white"}>
@@ -44,31 +56,32 @@ export default function Rewards() {
           <XStack
             justifyContent="space-between"
             marginBottom={20}
-            marginTop={10}
+           
           >
             <YStack>
               <Text color={"$black8"}>Total Points</Text>
               <Text color={"$green9"}>{profile[0]?.total_points} Points</Text>
             </YStack>
-            <Button backgroundColor={"$green8"} color={"white"}>
-              View Details
+            <Button onPress={() => route.push("/(tabs)/rewards/usertasks")} backgroundColor={"$green8"} color={"white"}>
+            View Tasks
             </Button>
           </XStack>
+          
         </View>
 
         <View>
           <Text fontSize={18} color={"$black6"} fontWeight={"500"}>
-            Next Level
+            Your Score
           </Text>
           <YStack gap={10} marginTop={10}>
-            <Progress value={40} borderColor={"$green5"}>
+            <Progress value={profile[0]?.total_points} borderColor={"$green5"}>
               <Progress.Indicator style={{backgroundColor: "green"}}  animation="bouncy" />
             </Progress>
-            <Text color={"$black7"}>200/400</Text>
+            <Text color={"$black7"}>{`${profile[0]?.total_points}/400`}</Text>
           </YStack>
         </View>
 
-        <View marginTop={25}>
+        <View marginTop={35}>
           <Text fontSize={18} color={"$green9"} fontWeight={"500"}>
             Badges
           </Text>
@@ -112,7 +125,17 @@ export default function Rewards() {
             </XStack>
           </View>
         </View>
-        <View marginTop={30}>
+        <YStack gap={30} marginTop={60}>
+
+            <Button backgroundColor={"$green8"} color={"white"}>
+             Earn Daily Point 
+            </Button>
+
+            <Button backgroundColor={"$green8"} color={"white"}>
+             Earn Weekly Point 
+            </Button>
+            </YStack>
+        {/* <View marginTop={30}>
           <Text fontSize={18} color={"$green9"} fontWeight={"500"}>
             Earn Points
           </Text>
@@ -201,7 +224,7 @@ export default function Rewards() {
               Start
             </Button>
           </XStack>
-        </View>
+        </View> */}
       </View>
     </View>
   );
