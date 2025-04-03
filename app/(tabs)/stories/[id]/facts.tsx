@@ -34,20 +34,20 @@ const Facts = () => {
       <ScrollView flex={1}>
         <View marginHorizontal={20}>
           <Text fontSize={22} marginVertical={20}>
-            How to help with {filter}
+            Fun Fact about {filter}
           </Text>
           <View>
             {data[0]?.funFact?.text && (
               <View marginBottom={20}>
-                <Text fontSize={18} fontWeight={"500"}>
+                <Text fontSize={18} fontWeight={"500"} color={"$green9"}>
                   {data[0]?.funFact?.text}
                 </Text>
                 {/* <Text>{data[0]?.funFact?.text}</Text> */}
-                <View>
+                <View marginVertical={40}>
                   <Image
                     source={{ uri: data[0]?.funFact?.image }}
                     alt="img"
-                    style={{ width: "100%", height: 200 }}
+                    style={{ width: "100%", height: 400 }}
                   />
                 </View>
               </View>

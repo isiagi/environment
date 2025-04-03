@@ -1,8 +1,27 @@
 {
   "build": {
-    "preview": { "android": { "buildType": "apk" } },
-    "preview2": { "android": { "gradleCommand": ":app:assembleRelease" } },
-    "preview3": { "developmentClient": true },
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "preview3": {
+      "developmentClient": true
+    },
+    "production": {
+      "channel": "production",
+      "autoIncrement": true
+    }
+  },
+  "submit": {
     "production": {}
+  },
+  "cli": {
+    "appVersionSource": "remote"
   }
 }

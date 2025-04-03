@@ -5,8 +5,8 @@
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint"
@@ -21,8 +21,13 @@
     "@react-navigation/drawer": "^7.1.1",
     "@react-navigation/native": "^7.0.14",
     "@tamagui/config": "^1.122.7",
+    "@tamagui/lucide-icons": "^1.125.22",
+    "@tamagui/popover": "^1.123.3",
+    "@tamagui/portal": "^1.123.3",
+    "axios": "^1.7.9",
     "expo": "~52.0.27",
     "expo-blur": "~14.0.2",
+    "expo-calendar": "~14.0.6",
     "expo-constants": "~17.0.4",
     "expo-font": "~13.0.3",
     "expo-haptics": "~14.0.1",
@@ -43,7 +48,8 @@
     "react-native-screens": "~4.4.0",
     "react-native-web": "~0.19.13",
     "react-native-webview": "13.12.5",
-    "tamagui": "^1.122.7"
+    "tamagui": "^1.122.7",
+    "expo-updates": "~0.27.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

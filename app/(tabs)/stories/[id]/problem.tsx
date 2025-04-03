@@ -36,15 +36,20 @@ const Problem = () => {
 
   return (
     <View flex={1} backgroundColor={"white"}>
-      <ScrollView flex={1}>
+      <ScrollView>
         <View marginHorizontal={20}>
           <Text fontSize={22} marginVertical={20}>
             What are the Impacts of {filter}
           </Text>
           <View>
             {data[0]?.impacts?.map((item: any, index: any) => (
-              <View>
-                <Text key={index} fontSize={18}>
+              <View key={index} marginBottom={35}>
+                <Text
+                  key={index}
+                  color={"$green9"}
+                  fontSize={18}
+                  marginBottom={20}
+                >
                   {item.text}
                 </Text>
                 <Image

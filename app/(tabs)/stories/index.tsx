@@ -1,7 +1,7 @@
 import { saveType } from "@/utils/localSave";
 import { useRouter } from "expo-router";
 import { FlatList } from "react-native";
-import { Image, ScrollView, Text, View, YStack } from "tamagui";
+import { Image, Text, View, YStack } from "tamagui";
 
 export default function Stories() {
   const router = useRouter();
@@ -9,15 +9,17 @@ export default function Stories() {
     {
       id: "carbon-emissions",
       title: "The impact of carbon emissions",
-      image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-      link: "/stories/Carbon-Emissions"
+      image:
+        "https://pbs.twimg.com/media/EkkmnI9X0AAxk6e?format=jpg&name=large",
+      link: "/stories/Carbon-Emissions",
     },
     {
-      id: "deforestation", 
+      id: "deforestation",
       title: "The impact of deforestation",
-      image: "https://res.cloudinary.com/djgesv2ry/image/upload/v1720536929/0924-OZOKA_yntpdx.jpg",
-      link: "/stories/Deforestation"
-    }
+      image:
+        "https://res.cloudinary.com/djgesv2ry/image/upload/v1720536929/0924-OZOKA_yntpdx.jpg",
+      link: "/stories/Deforestation",
+    },
   ];
   return (
     <View flex={1} backgroundColor={"white"}>
@@ -35,11 +37,14 @@ export default function Stories() {
           data={stories}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <YStack width={"100%"} onPress={() => {
-              saveType(item.link)
-              router.push(`/stories/type?type=${item.link}`)
-              }} marginBottom={30}
-              >
+            <YStack
+              width={"100%"}
+              onPress={() => {
+                saveType(item.link);
+                router.push(`/stories/type?type=${item.link}`);
+              }}
+              marginBottom={30}
+            >
               <Image
                 source={{
                   uri: item.image,
@@ -52,8 +57,6 @@ export default function Stories() {
             </YStack>
           )}
         />
-
-       
       </View>
     </View>
   );
