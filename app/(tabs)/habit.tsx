@@ -9,6 +9,7 @@ interface Task {
   points: number;
   is_completed?: boolean;
   task_type: 'daily' | 'weekly';
+  created_at?: string;
 }
 
 export default function Habits() {
@@ -25,8 +26,9 @@ export default function Habits() {
       // Fetch all tasks
       const tasksResponse = await authInstance.get("task/");
 
-      // Fetch completed tasks
-      const completedResponse = await authInstance.get("user-tasks/");
+      // Fetch completed tasks for current day
+      
+      const completedResponse = await authInstance.get(`user-tasks/today`);
 
       // Extract completed task IDs
       const completedIds = completedResponse.data.map(
@@ -41,7 +43,7 @@ export default function Habits() {
 
       setAllTasks(updatedTasks);
       // Initial filter for daily tasks
-      setFilteredTasks(updatedTasks.filter(task => task.task_type === activeTab));
+      setFilteredTasks(updatedTasks.filter((task: Task) => task.task_type === activeTab));
       setCompletedTaskIds(completedIds);
     } catch (error) {
       console.log(error);
@@ -56,7 +58,7 @@ export default function Habits() {
 
   // Filter tasks when tab changes
   useEffect(() => {
-    setFilteredTasks(allTasks.filter(task => task.task_type === activeTab));
+    setFilteredTasks(allTasks.filter((task: Task) => task.task_type === activeTab));
   }, [activeTab, allTasks]);
 
   const completeTask = async (id: number) => {

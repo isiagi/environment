@@ -9,6 +9,7 @@ interface Task {
   points: number;
   is_completed?: boolean;
   task_type: 'daily' | 'weekly';
+  completed_at?: string;
 }
 
 export default function UserTasks() {
@@ -26,15 +27,17 @@ export default function UserTasks() {
       // Fetch completed tasks
       const completedResponse = await authInstance.get("user-tasks/");
 
-      // Extract completed task IDs
-      const completedIds = completedResponse.data.map(
-        (task: any) => task.task
-      );
+      // Extract completed task IDs and dates
+      const completedTasksMap = completedResponse.data.reduce((acc: any, task: any) => {
+        acc[task.task] = task.completed_at;
+        return acc;
+      }, {});
 
-      // Mark tasks as completed
+      // Mark tasks as completed and add completion date
       const updatedTasks = tasksResponse.data.map((task: Task) => ({
         ...task,
-        is_completed: completedIds.includes(task.id),
+        is_completed: task.id in completedTasksMap,
+        completed_at: completedTasksMap[task.id]
       }));
 
       setAllTasks(updatedTasks);
@@ -95,12 +98,19 @@ export default function UserTasks() {
                     <Text fontSize={14} color="$gray11">{task.points} points</Text>
                   </YStack>
                   {task.is_completed ? (
-                    <Text color="$green9">Completed ✓</Text>
+                    <YStack alignItems="flex-end">
+                      <Text color="$green9">Completed ✓</Text>
+                      <Text fontSize={12} color="$gray11">
+                        {new Date(task.completed_at!).toLocaleDateString()}
+                      </Text>
+                    </YStack>
                   ) : (
-                    <XStack alignItems="center" gap={10}>
+                    <YStack alignItems="flex-end">
                       <Text color="$red9">Not Completed</Text>
-                      
-                    </XStack>
+                      <Text fontSize={12} color="$gray11">
+                        {task.completed_at ? new Date(task.completed_at).toLocaleDateString() : 'No completion date'}
+                      </Text>
+                    </YStack>
                   )}
                 </XStack>
               </View>
